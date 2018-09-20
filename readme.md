@@ -18,7 +18,6 @@ colors:
   - 'red'
   - 'orange'
   - 'yellow'
-
 ```
 
 3. Create a template file which exports a default function. For example `touchfire.js`:
