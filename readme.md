@@ -1,6 +1,6 @@
 # template-literals-cli
 
-> Templates so literals, a barbarian can do it
+> Templates so literal, a barbarian can do it
 
 Provides a simple way to build [ES6 Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) into static html files with an optional yaml or json config/data file. 
 
