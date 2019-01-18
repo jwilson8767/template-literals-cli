@@ -52,3 +52,53 @@ export default (config)=>`
 }
 ``` 
 Note that the wildcard is expanded by your terminal and therefore may not work on Windows/wherever glob is not available.
+
+## Importing other templates
+Using templates from other files is easy, just import the desired template like this:
+```js
+// File: templates/header.js
+export default (config)=>`
+<nav class="menu">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+`
+// end file
+
+// File: index.js
+import header from 'templates/header';
+export default (config)=>`
+<html>
+    <body>
+        ${ header(config) }
+        
+        <!-- more content here -->
+    </body>
+</html>
+`
+// endfile
+```
+
+## Complex logic
+If your templates start to get complicated you can always fall back to javascript to handle complex bits - so long as the default export returns a string.
+```js
+import item_card from 'templates/item_card.js';
+export default (config)=> {
+  let x = 0;
+  let cards = config['items'].map((item)=>{
+    return item_card(item, x++);
+  });
+  return `
+     <html>
+         <body>
+             ${ cards.join('') }
+             
+             <!-- more content here -->
+         </body>
+     </html>
+  `
+}
+```
