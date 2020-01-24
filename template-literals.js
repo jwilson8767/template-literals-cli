@@ -63,7 +63,7 @@ args['_'].forEach((f) => {
     let m = null;
 
     try {
-      let m = esm(path.resolve(f.substring(0, f.lastIndexOf(path.extname(f)))));
+      let {default: m} = esm(path.resolve(f.substring(0, f.lastIndexOf(path.extname(f)))));
       let basename = path.basename(f).split('.').slice(0, -1).join('.');
       let outfile = null;
       if (args['indexes']) {
@@ -81,7 +81,7 @@ args['_'].forEach((f) => {
         outfile = path.join(outdir, [basename, 'html'].join('.'));
       }
 
-      fs.writeFileSync(outfile, m.default(config));
+      fs.writeFileSync(outfile, m(config).trim());
 
       console.log(outfile);
     } catch (e) {
