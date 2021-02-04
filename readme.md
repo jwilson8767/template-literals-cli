@@ -102,3 +102,77 @@ export default (config)=> {
   `
 }
 ```
+
+## Injecting environment variables
+Occasionally, it's helpful to inject variables at build-time. As of 0.2.0, any key=value pairs after `--` will be processed as additional config properties and can even override existing values in the config file.
+
+```js
+//myPage.js
+export default ({env="prod"})=>`
+<html>
+<head> ... </head>
+<body>
+
+...
+
+${/* Use env to switch between minified and unminified javascript files */ '' }
+${env === 'prod' ? `
+  <script src="dist/main.min.js"></script>
+` : `
+  <script type="module" src="main.js"></script>
+`}
+
+</body>
+</html>
+`;
+
+```
+
+`template-literals --config "config.yml" --outdir ./ ./src/myPage.js -- env=dev`
+
+### A big stick 
+These overrides have a couple super powers. Take the following config:
+
+```json5
+{
+  "projects": [
+    {
+      "title": "My Project",
+      "figures": {
+        "sales_6mo": "/images/sales.png",
+        "sales_3mo": "/images/sales2.png"
+      }
+    },
+    // ...
+  ],
+  // ...
+}
+```
+
+Now imagine you need to override the project title. By specifying a key with **dot-notation** you can change properties deep in your config:
+
+`template-literals --config "config.yml" --outdir ./ ./src/myPage.js -- projects.0.title="The Best Project"`
+
+And to take things a step further, you can completely override `projects.0.figures` with a new object by passing **JSON as a value**:
+
+`template-literals --config "config.yml" --outdir ./ ./src/myPage.js -- projects.0.title="The Best Project" projects.0.figures='{"sales_1mo":"/images/sales_1mo.png","sales_3mo":"/images/sales_3mo.png"}'`
+
+Final result:
+```json5
+{
+  "projects": [
+    {
+      "title": "My Best Project",
+      "figures": {
+        "sales_1mo":"/images/sales_1mo.png",
+        "sales_3mo":"/images/sales_3mo.png",
+      }
+    },
+    // ...
+  ],
+  // ...
+}
+```
+
+
+
