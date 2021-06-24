@@ -104,7 +104,7 @@ if (!fs.existsSync(outdir)) {
   fs.mkdirSync(outdir);
 }
 // attempt to import each file and build it.
-args['_'].forEach((f) => {
+args['_'].forEach(async (f) => {
   if (fs.existsSync(f)) {
     if (args['verbose']){
       console.log('resolving module: '+f)
@@ -112,7 +112,17 @@ args['_'].forEach((f) => {
     let m = null;
 
     try {
-      let {default: m} = esm(path.resolve(f.substring(0, f.lastIndexOf(path.extname(f)))));
+      let m;
+      try {
+        m = esm(path.resolve(f.substring(0, f.lastIndexOf(path.extname(f)))))['default'];
+      } catch (e) {
+        // handle cases where package.json has "type: 'module'"
+        if (e.code && e.code === 'ERR_REQUIRE_ESM') {
+          m = (await import(path.resolve(f)))['default'];
+        } else {
+          throw e
+        }
+      }
       let basename = path.basename(f).split('.').slice(0, -1).join('.');
       let outfile = null;
       if (args['indexes']) {
