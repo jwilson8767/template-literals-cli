@@ -1,6 +1,6 @@
 {
   "name": "template-literals-cli",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Provides a quick way to compile .js files which export ES6 template literals to static html files.",
   "main": "template-literals.js",
   "repository": {
@@ -18,7 +18,6 @@
   "dependencies": {
     "esm": "^3.2.25",
     "minimist": ">=1.2.0",
-    "node": "^13.6.0",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
@@ -26,6 +25,6 @@
     "node": "^15.7.0"
   },
   "engines": {
-    "node": ">=13"
+    "node": ">=13.6"
   }
 }
