@@ -1,4 +1,4 @@
-![templateliterals_logo](https://user-images.githubusercontent.com/10873576/158666335-f32cc705-91a6-4008-bf30-ce754cf6f543.png)
+# Deprecated, please use new version [here](https://github.com/jcary741/template-literals-cli).
 
 # template-literals-cli
 
